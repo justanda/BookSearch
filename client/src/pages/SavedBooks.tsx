@@ -1,16 +1,16 @@
-import { useState, useEffect } from 'react';
-import { Container, Card, Button, Row, Col } from 'react-bootstrap';
+import { useState, useEffect } from "react";
+import { Container, Card, Button, Row, Col } from "react-bootstrap";
 
-import { getMe, deleteBook } from '../utils/API';
-import Auth from '../utils/auth';
-import { removeBookId } from '../utils/localStorage';
-import type { User } from '../models/User';
+import { getMe, deleteBook } from "../utils/API";
+import Auth from "../utils/auth.js";
+import { removeBookId } from "../utils/localStorage.js";
+import type { User } from "../models/User.js";
 
 const SavedBooks = () => {
   const [userData, setUserData] = useState<User>({
-    username: '',
-    email: '',
-    password: '',
+    username: "",
+    email: "",
+    password: "",
     savedBooks: [],
   });
 
@@ -29,7 +29,7 @@ const SavedBooks = () => {
         const response = await getMe(token);
 
         if (!response.ok) {
-          throw new Error('something went wrong!');
+          throw new Error("something went wrong!");
         }
 
         const user = await response.json();
@@ -37,6 +37,7 @@ const SavedBooks = () => {
       } catch (err) {
         console.error(err);
       }
+      return false;
     };
 
     getUserData();
@@ -54,7 +55,7 @@ const SavedBooks = () => {
       const response = await deleteBook(bookId, token);
 
       if (!response.ok) {
-        throw new Error('something went wrong!');
+        throw new Error("something went wrong!");
       }
 
       const updatedUser = await response.json();
@@ -73,7 +74,7 @@ const SavedBooks = () => {
 
   return (
     <>
-      <div className='text-light bg-dark p-5'>
+      <div className="text-light bg-dark p-5">
         <Container>
           {userData.username ? (
             <h1>Viewing {userData.username}'s saved books!</h1>
@@ -83,31 +84,31 @@ const SavedBooks = () => {
         </Container>
       </div>
       <Container>
-        <h2 className='pt-5'>
+        <h2 className="pt-5">
           {userData.savedBooks.length
             ? `Viewing ${userData.savedBooks.length} saved ${
-                userData.savedBooks.length === 1 ? 'book' : 'books'
+                userData.savedBooks.length === 1 ? "book" : "books"
               }:`
-            : 'You have no saved books!'}
+            : "You have no saved books!"}
         </h2>
         <Row>
           {userData.savedBooks.map((book) => {
             return (
-              <Col md='4'>
-                <Card key={book.bookId} border='dark'>
+              <Col md="4">
+                <Card key={book.bookId} border="dark">
                   {book.image ? (
                     <Card.Img
                       src={book.image}
                       alt={`The cover for ${book.title}`}
-                      variant='top'
+                      variant="top"
                     />
                   ) : null}
                   <Card.Body>
                     <Card.Title>{book.title}</Card.Title>
-                    <p className='small'>Authors: {book.authors}</p>
+                    <p className="small">Authors: {book.authors}</p>
                     <Card.Text>{book.description}</Card.Text>
                     <Button
-                      className='btn-block btn-danger'
+                      className="btn-block btn-danger"
                       onClick={() => handleDeleteBook(book.bookId)}
                     >
                       Delete this Book!

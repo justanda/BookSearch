@@ -1,15 +1,20 @@
 // see SignupForm.js for comments
-import { useState } from 'react';
-import type { ChangeEvent, FormEvent } from 'react';
-import { Form, Button, Alert } from 'react-bootstrap';
+import { useState } from "react";
+import type { ChangeEvent, FormEvent } from "react";
+import { Form, Button, Alert } from "react-bootstrap";
 
-import { loginUser } from '../utils/API';
-import Auth from '../utils/auth';
-import type { User } from '../models/User';
+import { loginUser } from "../utils/API";
+import Auth from "../utils/auth";
+import type { User } from "../models/User";
 
 // biome-ignore lint/correctness/noEmptyPattern: <explanation>
 const LoginForm = ({}: { handleModalClose: () => void }) => {
-  const [userFormData, setUserFormData] = useState<User>({ username: '', email: '', password: '', savedBooks: [] });
+  const [userFormData, setUserFormData] = useState<User>({
+    username: "",
+    email: "",
+    password: "",
+    savedBooks: [],
+  });
   const [validated] = useState(false);
   const [showAlert, setShowAlert] = useState(false);
 
@@ -32,7 +37,7 @@ const LoginForm = ({}: { handleModalClose: () => void }) => {
       const response = await loginUser(userFormData);
 
       if (!response.ok) {
-        throw new Error('something went wrong!');
+        throw new Error("something went wrong!");
       }
 
       const { token } = await response.json();
@@ -43,9 +48,9 @@ const LoginForm = ({}: { handleModalClose: () => void }) => {
     }
 
     setUserFormData({
-      username: '',
-      email: '',
-      password: '',
+      username: "",
+      email: "",
+      password: "",
       savedBooks: [],
     });
   };
@@ -53,38 +58,48 @@ const LoginForm = ({}: { handleModalClose: () => void }) => {
   return (
     <>
       <Form noValidate validated={validated} onSubmit={handleFormSubmit}>
-        <Alert dismissible onClose={() => setShowAlert(false)} show={showAlert} variant='danger'>
+        <Alert
+          dismissible
+          onClose={() => setShowAlert(false)}
+          show={showAlert}
+          variant="danger"
+        >
           Something went wrong with your login credentials!
         </Alert>
-        <Form.Group className='mb-3'>
-          <Form.Label htmlFor='email'>Email</Form.Label>
+        <Form.Group className="mb-3">
+          <Form.Label htmlFor="email">Email</Form.Label>
           <Form.Control
-            type='text'
-            placeholder='Your email'
-            name='email'
+            type="text"
+            placeholder="Your email"
+            name="email"
             onChange={handleInputChange}
-            value={userFormData.email || ''}
+            value={userFormData.email || ""}
             required
           />
-          <Form.Control.Feedback type='invalid'>Email is required!</Form.Control.Feedback>
+          <Form.Control.Feedback type="invalid">
+            Email is required!
+          </Form.Control.Feedback>
         </Form.Group>
 
-        <Form.Group className='mb-3'>
-          <Form.Label htmlFor='password'>Password</Form.Label>
+        <Form.Group className="mb-3">
+          <Form.Label htmlFor="password">Password</Form.Label>
           <Form.Control
-            type='password'
-            placeholder='Your password'
-            name='password'
+            type="password"
+            placeholder="Your password"
+            name="password"
             onChange={handleInputChange}
-            value={userFormData.password || ''}
+            value={userFormData.password || ""}
             required
           />
-          <Form.Control.Feedback type='invalid'>Password is required!</Form.Control.Feedback>
+          <Form.Control.Feedback type="invalid">
+            Password is required!
+          </Form.Control.Feedback>
         </Form.Group>
         <Button
           disabled={!(userFormData.email && userFormData.password)}
-          type='submit'
-          variant='success'>
+          type="submit"
+          variant="success"
+        >
           Submit
         </Button>
       </Form>
